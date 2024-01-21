@@ -2,10 +2,13 @@
 import React, { useState } from "react";
 import DoctorAvailability from "./components/DoctorAvailability";
 import PatientAppointment from "./components/PatientAppointment";
+import DoctorAllocation from "./components/DoctorAllocation";
+import PatientAllocatedMedicine from "./components/PatientAllocatedMedicine";
 
 const App = () => {
   const [doctorAvailability, setDoctorAvailability] = useState([]);
   const [bookedAppointments, setBookedAppointments] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const bookAppointment = (slot) => {
     setBookedAppointments([...bookedAppointments, slot]);
@@ -13,6 +16,11 @@ const App = () => {
 
   return (
     <div>
+      <DoctorAllocation />
+
+      <PatientAllocatedMedicine selectedDate={selectedDate} />
+      {/* <PatientAppointment /> */}
+      <br />
       <DoctorAvailability setDoctorAvailability={setDoctorAvailability} />
       <hr />
       <PatientAppointment

@@ -12,7 +12,7 @@ const PatientAppointment = ({ bookAppointment }) => {
       try {
         const formattedDate = format(selectedDate, "yyyy-MM-dd");
         const availability = await getAvailabilityForDate(formattedDate);
-        console.log("Availability:", availability); 
+        console.log("Availability:", availability);
         setDoctorAvailability(availability[0]?.slots || []);
       } catch (error) {
         console.error("Error fetching availability:", error);
