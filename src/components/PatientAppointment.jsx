@@ -1,4 +1,3 @@
-// PatientAppointment.js
 import React, { useState, useEffect, useMemo } from "react";
 import { format, parse, isSameDay } from "date-fns";
 import { getAvailabilityForDate } from "../utils/firebase-functions";
