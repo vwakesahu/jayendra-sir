@@ -1,14 +1,23 @@
-import React, { useState } from 'react';
-import { format } from 'date-fns';
-
+// DoctorAvailability.js
+import React, { useState } from "react";
+import { format } from "date-fns";
+import { saveItem } from "../utils/firebase-functions"; 
 const DoctorAvailability = ({ setDoctorAvailability }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedSlots, setSelectedSlots] = useState([]);
 
-  const handleSetAvailability = () => {
-    const formattedDate = format(selectedDate, 'yyyy-MM-dd');
-    const availability = selectedSlots.map((slot) => `${formattedDate} ${slot}`);
-    setDoctorAvailability(availability);
+  const handleSetAvailability = async () => {
+    const formattedDate = format(selectedDate, "yyyy-MM-dd");
+    const availability = selectedSlots.map(
+      (slot) => `${formattedDate} ${slot}`
+    );
+
+    try {
+      await saveItem({ date: formattedDate, slots: availability });
+      setDoctorAvailability(availability);
+    } catch (error) {
+      console.error("Error setting availability:", error);
+    }
   };
 
   return (
@@ -18,7 +27,7 @@ const DoctorAvailability = ({ setDoctorAvailability }) => {
         Select Date:
         <input
           type="date"
-          value={format(selectedDate, 'yyyy-MM-dd')}
+          value={format(selectedDate, "yyyy-MM-dd")}
           onChange={(e) => setSelectedDate(new Date(e.target.value))}
         />
       </label>
@@ -28,7 +37,11 @@ const DoctorAvailability = ({ setDoctorAvailability }) => {
         <select
           multiple
           value={selectedSlots}
-          onChange={(e) => setSelectedSlots(Array.from(e.target.selectedOptions, (option) => option.value))}
+          onChange={(e) =>
+            setSelectedSlots(
+              Array.from(e.target.selectedOptions, (option) => option.value)
+            )
+          }
         >
           <option value="09:00">9:00 AM</option>
           <option value="10:00">10:00 AM</option>
