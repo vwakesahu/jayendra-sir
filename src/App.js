@@ -35,6 +35,7 @@ const App = () => {
     weight: 0,
   });
 
+  const [allPatientRecords, setAllPatientRecords] = useState([]);
   useEffect(() => {
     const init = async () => {
       if (window.ethereum) {
@@ -42,7 +43,7 @@ const App = () => {
         await window.ethereum.enable();
         setWeb3(web3Instance);
 
-        const contractAddress = "0xdeb69FBDEf192040184Bc0d227E76e91854Df1b2";
+        const contractAddress = "0xe2689b72273Fed0f400289326E2599323249665f";
         const contractInstance = new web3Instance.eth.Contract(
           PatientRecordsABI,
           contractAddress
@@ -119,6 +120,39 @@ const App = () => {
     setBookedAppointments([...bookedAppointments, slot]);
   };
 
+  // Add this function in your App.js file
+
+  const getAllPatientRecords = async () => {
+    try {
+      const result = await contract.methods
+        .getAllPatientRecords()
+        .call();
+      // Call the smart contract function to get all patient records
+      // const result = await contract.methods.getAllPatientRecords().call();
+      console.log(result)
+      // Convert the retrieved records to a more readable format
+      const convertedRecords = result.map((record) => ({
+        recordId: Number(record[0]),
+        timestamp: Number(record[1]),
+        patientName: String(record[2]),
+        stepCount: Number(record[3]),
+        bloodRate: Number(record[4]),
+        height: Number(record[5]),
+        weight: Number(record[6]),
+      }));
+  
+      // Update the state with the retrieved records
+      setAllPatientRecords(convertedRecords);
+  
+      console.log(
+        "All patient records retrieved successfully:",
+        allPatientRecords
+      );
+    } catch (error) {
+      console.error("Error retrieving all patient records:", error);
+    }
+  };
+  
   return (
     <div>
       <button style={{ padding: 10, margin: 10 }} onClick={connect}>
@@ -177,7 +211,7 @@ const App = () => {
         value={selectedRecordId}
         onChange={(e) => setSelectedRecordId(e.target.value)}
       />
-      <button onClick={getPatientRecord}>Get Patient Record</button>
+      <button onClick={getPatientRecord}>Get Patiesdcfdsnt Record</button>
 
       <div>
         <h2>Retrieved Patient Record</h2>
@@ -189,7 +223,25 @@ const App = () => {
         <p>Height: {retrievedRecord.height}</p>
         <p>Weight: {retrievedRecord.weight}</p>
       </div>
-      <SmartContract />
+
+      <button onClick={getAllPatientRecords}>Get All Patient Records</button>
+
+      <div>
+        <h2>All Patient Records</h2>
+        {allPatientRecords.map((record) => (
+          <div key={record.recordId}>
+            <p>Record ID: {record.recordId}</p>
+            <p>Timestamp: {record.timestamp}</p>
+            <p>Patient Name: {record.patientName}</p>
+            <p>Step Count: {record.stepCount}</p>
+            <p>Blood Rate: {record.bloodRate}</p>
+            <p>Height: {record.height}</p>
+            <p>Weight: {record.weight}</p>
+            <hr />
+          </div>
+        ))}
+      </div>
+      {/* <SmartContract /> */}
       <DoctorAllocation />
 
       <PatientAllocatedMedicine selectedDate={selectedDate} />

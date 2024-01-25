@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.23;
+pragma solidity ^0.8.22;
 
 contract PatientRecords {
     uint public recordCount;
@@ -70,5 +70,15 @@ contract PatientRecords {
 
     function getLatestRecordCount() public view returns (uint) {
         return recordCount;
+    }
+    
+    function getAllPatientRecords() public view returns (PatientRecord[] memory) {
+        PatientRecord[] memory records = new PatientRecord[](recordCount);
+
+        for (uint i = 1; i <= recordCount; i++) {
+            records[i - 1] = patientRecords[i];
+        }
+
+        return records;
     }
 }
