@@ -12,30 +12,9 @@ import Web3 from "web3";
 const App = () => {
   const [account, setAccount] = useState();
   const { sdk, connected, connecting, provider, chainId } = useSDK();
-  const [doctorAvailability, setDoctorAvailability] = useState([]);
-  const [bookedAppointments, setBookedAppointments] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [web3, setWeb3] = useState(null);
   const [contract, setContract] = useState(null);
-  const [recordCount, setRecordCount] = useState(0);
-  const [patientName, setPatientName] = useState("");
-  const [stepCount, setStepCount] = useState(0);
-  const [bloodRate, setBloodRate] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [weight, setWeight] = useState(0);
-  const [selectedRecordId, setSelectedRecordId] = useState(1);
 
-  const [retrievedRecord, setRetrievedRecord] = useState({
-    recordId: 0,
-    timestamp: 0,
-    patientName: "",
-    stepCount: 0,
-    bloodRate: 0,
-    height: 0,
-    weight: 0,
-  });
-
-  const [allPatientRecords, setAllPatientRecords] = useState([]);
   useEffect(() => {
     const init = async () => {
       if (window.ethereum) {
@@ -60,99 +39,6 @@ const App = () => {
     init();
   }, []);
 
-  const getPatientRecord = async () => {
-    try {
-      const result = await contract.methods
-        .getPatientRecord(selectedRecordId)
-        .call();
-
-      const convertedRecord = {
-        recordId: Number(result[0]),
-        timestamp: Number(result[1]),
-        patientName: String(result[2]),
-        stepCount: Number(result[3]),
-        bloodRate: Number(result[4]),
-        height: Number(result[5]),
-        weight: Number(result[6]),
-      };
-
-      setRetrievedRecord(convertedRecord);
-
-      console.log("Patient record retrieved successfully:", retrievedRecord);
-    } catch (error) {
-      console.error("Error retrieving patient record:", error);
-    }
-  };
-
-  const addPatientRecord = async () => {
-    try {
-      await contract.methods
-        .addPatientRecord(patientName, stepCount, bloodRate, height, weight)
-        .send({ from: account });
-
-      console.log("Patient record added successfully");
-    } catch (error) {
-      console.error("Error adding patient record:", error);
-    }
-  };
-
-  const getLatestRecordCount = async () => {
-    try {
-      const latestRecordCount = await contract.methods
-        .getLatestRecordCount()
-        .call();
-      setRecordCount(latestRecordCount);
-      console.log(latestRecordCount);
-    } catch (error) {
-      console.error("Error getting latest record count:", error);
-    }
-  };
-
-  const connect = async () => {
-    try {
-      const accounts = await sdk?.connect();
-      setAccount(accounts?.[0]);
-    } catch (err) {
-      console.warn(`failed to connect..`, err);
-    }
-  };
-  const bookAppointment = (slot) => {
-    setBookedAppointments([...bookedAppointments, slot]);
-  };
-
-  // Add this function in your App.js file
-
-  const getAllPatientRecords = async () => {
-    try {
-      const result = await contract.methods
-        .getAllPatientRecords()
-        .call();
-      // Call the smart contract function to get all patient records
-      // const result = await contract.methods.getAllPatientRecords().call();
-      console.log(result)
-      // Convert the retrieved records to a more readable format
-      const convertedRecords = result.map((record) => ({
-        recordId: Number(record[0]),
-        timestamp: Number(record[1]),
-        patientName: String(record[2]),
-        stepCount: Number(record[3]),
-        bloodRate: Number(record[4]),
-        height: Number(record[5]),
-        weight: Number(record[6]),
-      }));
-  
-      // Update the state with the retrieved records
-      setAllPatientRecords(convertedRecords);
-  
-      console.log(
-        "All patient records retrieved successfully:",
-        allPatientRecords
-      );
-    } catch (error) {
-      console.error("Error retrieving all patient records:", error);
-    }
-  };
-  
   return (
     <div>
       <button style={{ padding: 10, margin: 10 }} onClick={connect}>
@@ -204,62 +90,6 @@ const App = () => {
         <button onClick={addPatientRecord}>Add Patient Record</button>
         <button onClick={getLatestRecordCount}>Get Latest Record Count</button>
       </div>
-
-      <input
-        type="number"
-        placeholder="Record ID"
-        value={selectedRecordId}
-        onChange={(e) => setSelectedRecordId(e.target.value)}
-      />
-      <button onClick={getPatientRecord}>Get Patiesdcfdsnt Record</button>
-
-      <div>
-        <h2>Retrieved Patient Record</h2>
-        <p>Record ID: {retrievedRecord.recordId}</p>
-        <p>Timestamp: {retrievedRecord.timestamp}</p>
-        <p>Patient Name: {retrievedRecord.patientName}</p>
-        <p>Step Count: {retrievedRecord.stepCount}</p>
-        <p>Blood Rate: {retrievedRecord.bloodRate}</p>
-        <p>Height: {retrievedRecord.height}</p>
-        <p>Weight: {retrievedRecord.weight}</p>
-      </div>
-
-      <button onClick={getAllPatientRecords}>Get All Patient Records</button>
-
-      <div>
-        <h2>All Patient Records</h2>
-        {allPatientRecords.map((record) => (
-          <div key={record.recordId}>
-            <p>Record ID: {record.recordId}</p>
-            <p>Timestamp: {record.timestamp}</p>
-            <p>Patient Name: {record.patientName}</p>
-            <p>Step Count: {record.stepCount}</p>
-            <p>Blood Rate: {record.bloodRate}</p>
-            <p>Height: {record.height}</p>
-            <p>Weight: {record.weight}</p>
-            <hr />
-          </div>
-        ))}
-      </div>
-      {/* <SmartContract /> */}
-      <DoctorAllocation />
-
-      <PatientAllocatedMedicine selectedDate={selectedDate} />
-
-      <br />
-      <DoctorAvailability setDoctorAvailability={setDoctorAvailability} />
-      <hr />
-      <PatientAppointment
-        doctorAvailability={doctorAvailability}
-        bookAppointment={bookAppointment}
-      />
-      <hr />
-      <h2>Booked Appointments</h2>
-      <ul>
-        {bookedAppointments.map((slot) => (
-          <li key={slot}>{slot}</li>
-        ))}
-      </ul>
     </div>
   );
 };
