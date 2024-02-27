@@ -4,128 +4,251 @@
 		"inputs": [
 			{
 				"indexed": false,
-				"internalType": "uint256",
-				"name": "recordId",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "timestamp",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "adminAddress",
+				"type": "address"
 			},
 			{
 				"indexed": false,
 				"internalType": "string",
-				"name": "patientName",
+				"name": "adminId",
 				"type": "string"
-			},
+			}
+		],
+		"name": "AdminAdded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "doctorId",
+				"type": "string"
+			}
+		],
+		"name": "DoctorAdded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "doctorId",
+				"type": "string"
+			}
+		],
+		"name": "DoctorDeleted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "id",
+				"type": "string"
+			}
+		],
+		"name": "PatientAdded",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "id",
+				"type": "string"
+			}
+		],
+		"name": "PatientDeleted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
 			{
 				"indexed": false,
 				"internalType": "uint256",
-				"name": "stepCount",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "bloodRate",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "height",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "weight",
+				"name": "id",
 				"type": "uint256"
 			}
 		],
-		"name": "PatientRecords__AddPatientRecord",
+		"name": "PharmacyAdded",
 		"type": "event"
 	},
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_adminAddress",
+				"type": "address"
+			},
+			{
 				"internalType": "string",
-				"name": "_patientName",
+				"name": "_adminId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_adminName",
+				"type": "string"
+			}
+		],
+		"name": "addAdmin",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_doctorId",
+				"type": "string"
+			},
+			{
+				"internalType": "string[10]",
+				"name": "_data",
+				"type": "string[10]"
+			}
+		],
+		"name": "addDoctor",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_id",
+				"type": "string"
+			},
+			{
+				"internalType": "string[14]",
+				"name": "_data",
+				"type": "string[14]"
+			}
+		],
+		"name": "addPatient",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_drugName",
 				"type": "string"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_stepCount",
+				"name": "_quantity",
 				"type": "uint256"
 			},
 			{
-				"internalType": "uint256",
-				"name": "_bloodRate",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_height",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_weight",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "_adminAddress",
+				"type": "address"
 			}
 		],
-		"name": "addPatientRecord",
+		"name": "addPharmacyStock",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
 		"inputs": [],
-		"name": "getAllPatientRecords",
+		"name": "addSampleData",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_adminAddress",
+				"type": "address"
+			}
+		],
+		"name": "addSamplePharmacyData",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_doctorId",
+				"type": "string"
+			}
+		],
+		"name": "deleteDoctor",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_id",
+				"type": "string"
+			}
+		],
+		"name": "deletePatient",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "admins",
 		"outputs": [
 			{
-				"components": [
-					{
-						"internalType": "uint256",
-						"name": "recordId",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "timestamp",
-						"type": "uint256"
-					},
-					{
-						"internalType": "string",
-						"name": "patientName",
-						"type": "string"
-					},
-					{
-						"internalType": "uint256",
-						"name": "stepCount",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "bloodRate",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "height",
-						"type": "uint256"
-					},
-					{
-						"internalType": "uint256",
-						"name": "weight",
-						"type": "uint256"
-					}
-				],
-				"internalType": "struct PatientRecords.PatientRecord[]",
+				"internalType": "string",
+				"name": "adminId",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "adminName",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
 				"name": "",
-				"type": "tuple[]"
+				"type": "string"
+			}
+		],
+		"name": "doctors",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "doctorId",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -133,7 +256,116 @@
 	},
 	{
 		"inputs": [],
-		"name": "getLatestRecordCount",
+		"name": "getAllPharmacies",
+		"outputs": [
+			{
+				"internalType": "string[]",
+				"name": "",
+				"type": "string[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_doctorId",
+				"type": "string"
+			}
+		],
+		"name": "getDoctor",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string[10]",
+				"name": "",
+				"type": "string[10]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_id",
+				"type": "string"
+			}
+		],
+		"name": "getPatient",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string[14]",
+				"name": "",
+				"type": "string[14]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_id",
+				"type": "uint256"
+			}
+		],
+		"name": "getPharmacy",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "patients",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "id",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "pharmacyIdCounter",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -148,46 +380,31 @@
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_recordId",
+				"name": "",
 				"type": "uint256"
 			}
 		],
-		"name": "getPatientRecord",
+		"name": "pharmacyStocks",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
+				"name": "id",
 				"type": "uint256"
 			},
 			{
 				"internalType": "string",
-				"name": "",
+				"name": "drugName",
 				"type": "string"
 			},
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "quantity",
 				"type": "uint256"
 			},
 			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "adminAddress",
+				"type": "address"
 			}
 		],
 		"stateMutability": "view",
@@ -195,12 +412,24 @@
 	},
 	{
 		"inputs": [],
-		"name": "recordCount",
+		"name": "viewAllAdmins",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"components": [
+					{
+						"internalType": "string",
+						"name": "adminId",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "adminName",
+						"type": "string"
+					}
+				],
+				"internalType": "struct HospitalManagement.Admin[]",
 				"name": "",
-				"type": "uint256"
+				"type": "tuple[]"
 			}
 		],
 		"stateMutability": "view",

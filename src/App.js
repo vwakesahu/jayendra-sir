@@ -1,13 +1,18 @@
 // App.js
 import React, { useEffect, useState } from "react";
-import DoctorAvailability from "./components/DoctorAvailability";
-import PatientAppointment from "./components/PatientAppointment";
-import DoctorAllocation from "./components/DoctorAllocation";
-import PatientAllocatedMedicine from "./components/PatientAllocatedMedicine";
-import SmartContract from "./components/SmartContract";
 import { useSDK } from "@metamask/sdk-react";
 import PatientRecordsABI from "./contract/PatientRecords.json";
 import Web3 from "web3";
+import Navbar from "./components/Navbar";
+import { Route, Routes } from "react-router-dom";
+import Doctor from "./pages/Doctor";
+import Dashboard from "./pages/Dashboard";
+import Pharmacy from "./pages/Pharmacy";
+import Distributor from "./pages/Distributor";
+import Manufacturer from "./pages/Manufacturer";
+import Stocklist from "./pages/Stocklist";
+import Supplier from "./pages/Supplier";
+
 
 const App = () => {
   const [account, setAccount] = useState();
@@ -39,9 +44,18 @@ const App = () => {
     init();
   }, []);
 
+  const connect = async () => {
+    try {
+      const accounts = await sdk?.connect();
+      setAccount(accounts?.[0]);
+    } catch (err) {
+      console.warn(`failed to connect..`, err);
+    }
+  };
+
   return (
     <div>
-      <button style={{ padding: 10, margin: 10 }} onClick={connect}>
+      {/* <button style={{ padding: 10, margin: 10 }} onClick={connect}>
         Connect
       </button>
       {connected && (
@@ -52,44 +66,32 @@ const App = () => {
             {account && `Connected account: ${account}`}
           </>
         </div>
-      )}
-      <div>
-        <h1>Interact with Smart Contract</h1>
-        <p>Account: {account}</p>
-        <p>Latest Record Count: {recordCount}</p>
-        <input
-          type="text"
-          placeholder="Patient Name"
-          value={patientName}
-          onChange={(e) => setPatientName(e.target.value)}
+      )} */}
+
+      <Navbar />
+      <Routes>
+        <Route path="/supplier" element={<Supplier />} />
+        <Route path="/stocklist" element={<Stocklist />} />
+        <Route path="/manufacturer" element={<Manufacturer />} />
+        <Route path="/distributor" element={<Distributor />} />
+        <Route path="/pharmacy" element={<Pharmacy />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/doctor" element={<Doctor />} />
+        {/* <Route path="/login" element={<Login />} />
+        <Route
+          path="/doctordashboard"
+          element={<DoctorDashboard contract={contract} />}
         />
-        <input
-          type="number"
-          placeholder="Step Count"
-          value={stepCount}
-          onChange={(e) => setStepCount(e.target.value)}
+        <Route
+          path="/admindashboard"
+          element={<AdminDashboard contract={contract} />}
         />
-        <input
-          type="number"
-          placeholder="Blood Rate"
-          value={bloodRate}
-          onChange={(e) => setBloodRate(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Height"
-          value={height}
-          onChange={(e) => setHeight(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Weight"
-          value={weight}
-          onChange={(e) => setWeight(e.target.value)}
-        />
-        <button onClick={addPatientRecord}>Add Patient Record</button>
-        <button onClick={getLatestRecordCount}>Get Latest Record Count</button>
-      </div>
+        <Route
+          path="/supplierdashboard"
+          element={<SupplierDashboard contract={contract} />}
+        /> */}
+        <Route path="/*" element={<Dashboard />} />
+      </Routes>
     </div>
   );
 };
